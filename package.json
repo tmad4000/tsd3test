@@ -11,9 +11,13 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "4.0.22-alpha",
-    "@types/react": "0.14.21-alpha",
-    "@types/react-dom": "0.14.8-alpha",
+    "@types/lodash": "^4.14.47",
+    "@types/react": "^0.14.55",
+    "@types/react-dom": "^0.14.19",
     "@types/requirejs": "2.1.20-alpha",
+    "@types/d3": "^4.4.0",
+    "@types/immutable": "^3.8.7",
+    "@types/react-infinite": "0.0.28",
     "babel-core": "6.9.1",
     "babel-loader": "6.2.4",
     "babel-preset-es2015": "6.9.0",
@@ -28,13 +32,12 @@
     "webpack-notifier": "1.3.0"
   },
   "dependencies": {
-    "@types/d3": "^4.4.0",
-    "@types/lodash": "^4.14.47",
-    "@types/react-infinite": "0.0.28",
     "d3": "^4.4.1",
     "lodash": "^4.17.4",
-    "react": "15.1.0",
-    "react-dom": "15.1.0",
-    "react-infinite": "^0.10.0"
+    "immutable": "^3.8.1",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-infinite": "^0.10.0",
+    "redux": "^3.6.0"
   }
 }
