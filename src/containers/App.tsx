@@ -5,12 +5,14 @@ import * as _ from "lodash";
 // import * as Infinite from "react-infinite";
 
 import D3List from "./D3List"
+import * as Immutable from "immutable";
+
 
 // var Infinite = require("react-infinite");
 
 
 export interface AppState {
-    gestalts: Array<{ id: string, text: string }>
+    gestalts: Immutable.OrderedMap<string, { id: string, text: string }>
 }
 
 
@@ -26,12 +28,14 @@ export default class App extends React.Component<AppProps, AppState> {
 
         super(props);
         this.state = {
-            gestalts: _.times(300, (i) => {
-                return {
-                    id: App.GenUID(),
-                    text: "hi"
-                }
-            })
+            gestalts: Immutable.OrderedMap(_.keyBy(
+                _.times(30000, (i) => {
+                    return {
+                        id: App.GenUID(),
+                        text: "hi"
+                    }
+                }),
+                "id"))
         }
 
         //    this.state = initState
@@ -57,33 +61,44 @@ export default class App extends React.Component<AppProps, AppState> {
 
             <div style={{ "border": "1px solid black", float: "right", width: 200, height: 400 }}>
                 <b>State:</b>
-                {this.state.gestalts.map((g, i) => <div key={i}>{g.text}</div>)}
+                {this.state.gestalts.map((g, i) => <div key={i}>{g ? g.text : "ERR"}</div>).toArray()}
             </div>
 
             <D3List
-                data={this.state.gestalts}
+                data={this.state.gestalts.toIndexedSeq().toJS()}
+
                 updateGestalt={(id: string, text: string) => {
                     console.log(text)
                     this.setState((prevState) => {
-                        const newGs = prevState.gestalts.slice()
-
-                        const foundIdx: number = newGs.findIndex((e) => e.id === id)
-
-                        newGs[foundIdx] = { ...newGs[foundIdx], text: text }
 
                         return {
-                            gestalts: newGs
+                            gestalts: prevState.gestalts.set(id, { ...prevState.gestalts.get(id), text: text })
                         }
                     })
                 }
                 }
 
                 addGestalt={() => this.setState((prevState) => {
+                    const newId = App.GenUID()
+
                     return {
-                        gestalts: [{
-                            id: App.GenUID(),
-                            text: "yooooo"
-                        }].concat(prevState.gestalts)
+                        gestalts:
+                        //    prevState.gestalts.merge(
+                        //         Immutable.OrderedMap({
+                        //     [newId]:
+                        //         {
+                        //             id: newId,
+                        //             text: "yooooo"
+                        //         }
+                        //     })
+                        //    )
+                        Immutable.OrderedMap({
+                            [newId]:
+                            {
+                                id: newId,
+                                text: "yooooo"
+                            }
+                        }).merge(prevState.gestalts)
                     }
                 })}
             />
