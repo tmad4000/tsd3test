@@ -26,7 +26,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
         super(props);
         this.state = {
-            gestalts: _.times(3000, (i) => {
+            gestalts: _.times(300, (i) => {
                 return {
                     id: App.GenUID(),
                     text: "hi"
@@ -42,6 +42,7 @@ export default class App extends React.Component<AppProps, AppState> {
         return "id" + App.currId++
     }
 
+
     render() {
 
         // <ul id="list">
@@ -52,18 +53,40 @@ export default class App extends React.Component<AppProps, AppState> {
 
 
         return (<div>
-            Titleasd faadsfa
+            Title
+
+            <div style={{ "border": "1px solid black", float: "right", width: 200, height: 400 }}>
+                <b>State:</b>
+                {this.state.gestalts.map((g, i) => <div key={i}>{g.text}</div>)}
+            </div>
+
             <D3List
                 data={this.state.gestalts}
-                addNum={() => this.setState((prevState) => {
+                updateGestalt={(id: string, text: string) => {
+                    console.log(text)
+                    this.setState((prevState) => {
+                        const newGs = prevState.gestalts.slice()
+
+                        const foundIdx: number = newGs.findIndex((e) => e.id === id)
+
+                        newGs[foundIdx] = { ...newGs[foundIdx], text: text }
+
+                        return {
+                            gestalts: newGs
+                        }
+                    })
+                }
+                }
+
+                addGestalt={() => this.setState((prevState) => {
                     return {
                         gestalts: [{
                             id: App.GenUID(),
                             text: "yooooo"
                         }].concat(prevState.gestalts)
                     }
-                }) }
-                />
+                })}
+            />
 
 
         </div>)

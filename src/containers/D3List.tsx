@@ -12,7 +12,8 @@ var Infinite = require("react-infinite");
 export interface D3ListProps extends React.Props<D3List> {
     data: Array<{ id: string, text: string }>
 
-    addNum: () => void
+    addGestalt: () => void
+    updateGestalt: (id:string,text:string) => void
 }
 
 
@@ -33,7 +34,7 @@ export default class D3List extends React.Component<D3ListProps, undefined> {
         const d3MountPoint = d3.select(this.mountPoint)
 
         d3MountPoint.select("#append").on("click", () => {
-            this.props.addNum()
+            this.props.addGestalt()
         })
 
         this.updateData(this.props)
@@ -80,12 +81,29 @@ export default class D3List extends React.Component<D3ListProps, undefined> {
             // // if(d) { console.log(d)}
             // return d ? d.id : (this as any).id 
         })
-            .text((d) => d.text)
+
         // .style("border", "1px solid black")
 
+        const parentReactComponent = this
+
         let enterSel = datSel.enter()
-        enterSel.append("li")
-            .text((d) => d.text)
+        enterSel.append("li").text((d) => d.text)
+            .style("width", "200px")
+            .style("border", "1px solid black")
+
+            .on("click", function (d) {
+                // debugger
+                // d3.event.currentTarget 
+                (this as any).style = "border:1px solid red";
+                (this as any).contentEditable = true;
+            })
+            .on("keydown", function (d) {
+                parentReactComponent.props.updateGestalt(d.id,(this as any).innerText)
+                // debugger
+                // // d3.event.currentTarget 
+                // (this as any).style = "border:1px solid black";
+                // (this as any).contentEditable = false;
+            })
         // .style("border", "1px solid red")
 
         let exitSel = datSel.exit()
