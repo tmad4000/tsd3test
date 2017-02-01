@@ -12,6 +12,7 @@ declare var module: { hot: any };
 
 // Get our root element
 const rootEl = document.getElementById('app');
+if(!rootEl) { throw Error()}
 
 // And render our App into it, inside the HMR App Container which handles the reloading
 render(

@@ -10,7 +10,7 @@ import D3List from "./D3List"
 
 
 export interface AppState {
-    numbers?: number[]
+    gestalts: Array<{ id: string, text: string }>
 }
 
 
@@ -20,17 +20,27 @@ export interface AppProps extends React.Props<App> {
 
 export default class App extends React.Component<AppProps, AppState> {
 
+    static currId: number = 0
+
     constructor(props) {
 
         super(props);
         this.state = {
-            numbers: _.times(3000, () => 3)
+            gestalts: _.times(3000, (i) => {
+                return {
+                    id: App.GenUID(),
+                    text: "hi"
+                }
+            })
         }
 
         //    this.state = initState
 
     }
 
+    static GenUID = (): string => {
+        return "id" + App.currId++
+    }
 
     render() {
 
@@ -44,9 +54,14 @@ export default class App extends React.Component<AppProps, AppState> {
         return (<div>
             Titleasd faadsfa
             <D3List
-                data={this.state.numbers}
+                data={this.state.gestalts}
                 addNum={() => this.setState((prevState) => {
-                    return { numbers: [888].concat(prevState.numbers) }
+                    return {
+                        gestalts: [{
+                            id: App.GenUID(),
+                            text: "yooooo"
+                        }].concat(prevState.gestalts)
+                    }
                 }) }
                 />
 

@@ -8,7 +8,9 @@
     "noImplicitAny": false,
     "sourceMap": true,
     "outDir": "ts-build",
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "alwaysStrict": true,
+    "strictNullChecks": true
   },
   "exclude": [
     "node_modules"

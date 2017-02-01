@@ -3,7 +3,7 @@ var path = require('path');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
-  devtool: 'eval',
+  devtool: "source-map",
   entry: [
     // Add the react hot loader entry point - in reality, you might only want this in your dev config
     'react-hot-loader/patch',
@@ -12,7 +12,7 @@ module.exports = {
     'index.tsx'
   ],
   output: {
-    filename: 'app.js',
+    filename: "bundle.js",
     publicPath: '/dist',
     path: path.resolve('dist')
   },
@@ -23,7 +23,11 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.tsx?$/, loaders: ['babel', 'ts-loader'] }
-    ]
+    ],
+    preLoaders: [
+    // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+    { test: /\.js$/, loader: "source-map-loader" }
+]
   },
   plugins: [
     // Add the HMR plugin

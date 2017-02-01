@@ -10,7 +10,8 @@ var Infinite = require("react-infinite");
 
 
 export interface D3ListProps extends React.Props<D3List> {
-    data: number[]
+    data: Array<{ id: string, text: string }>
+
     addNum: () => void
 }
 
@@ -71,13 +72,20 @@ export default class D3List extends React.Component<D3ListProps, undefined> {
         let sel = d3MountPoint.select("#list").selectAll("li")
 
 
-        let datSel = sel.data(props.data)
-            .text((d) => d)
-            // .style("border", "1px solid black")
+        let datSel = sel.data(props.data, function (d: { id: string, text: string }) {
+            if (!d) { throw Error("shouldn't be any preexisting elements") }
+            return d.id
+
+            // if(!d) { console.error("asdf")}
+            // // if(d) { console.log(d)}
+            // return d ? d.id : (this as any).id 
+        })
+            .text((d) => d.text)
+        // .style("border", "1px solid black")
 
         let enterSel = datSel.enter()
         enterSel.append("li")
-            .text((d) => d)
+            .text((d) => d.text)
         // .style("border", "1px solid red")
 
         let exitSel = datSel.exit()
@@ -100,12 +108,9 @@ export default class D3List extends React.Component<D3ListProps, undefined> {
 
         return (<div >
             Titleasd faadsfa
-            < div ref= { mountPoint => this.mountPoint = mountPoint } >
+            < div ref={mountPoint => this.mountPoint = mountPoint} >
                 <button id="append">Append</button>
                 <ul id="list">
-                    <li height="20">uu</li>
-                    <li height="20">uu</li>
-                    <li height="20">uu</li>
                 </ul>
 
             </div >
