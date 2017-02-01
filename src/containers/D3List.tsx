@@ -40,10 +40,6 @@ export default class D3List extends React.Component<D3ListProps, undefined> {
         this.updateData(this.props)
 
 
-
-
-
-
         // update()
 
         //     .data([4, 8, 15, 16, 23, 42])
@@ -73,20 +69,25 @@ export default class D3List extends React.Component<D3ListProps, undefined> {
         let sel = d3MountPoint.select("#list").selectAll("li")
 
 
-        let datSel = sel.data(props.data, function (d: { id: string, text: string }) {
+        let datSel = sel.data(props.data
+        , function (d: { id: string, text: string }) {
             if (!d) { throw Error("shouldn't be any preexisting elements") }
             return d.id
 
             // if(!d) { console.error("asdf")}
             // // if(d) { console.log(d)}
             // return d ? d.id : (this as any).id 
-        })
+        }
+        ).text((d) => d.text)
+        console.log('Number of updated datapoints', datSel.size())
 
         // .style("border", "1px solid black")
 
         const parentReactComponent = this
 
         let enterSel = datSel.enter()
+        console.log('Number of inserted datapoints', enterSel.size())
+
         enterSel.append("li").text((d) => d.text)
             .style("width", "200px")
             .style("border", "1px solid black")

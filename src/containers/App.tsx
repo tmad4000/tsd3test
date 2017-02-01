@@ -29,7 +29,7 @@ export default class App extends React.Component<AppProps, AppState> {
         super(props);
         this.state = {
             gestalts: Immutable.OrderedMap(_.keyBy(
-                _.times(30000, (i) => {
+                _.times(3000, (i) => {
                     return {
                         id: App.GenUID(),
                         text: "hi"
@@ -61,14 +61,21 @@ export default class App extends React.Component<AppProps, AppState> {
 
             <div style={{ "border": "1px solid black", float: "right", width: 200, height: 400 }}>
                 <b>State:</b>
-                {this.state.gestalts.map((g, i) => <div key={i}>{g ? g.text : "ERR"}</div>).toArray()}
+                {
+                    /*this.state.gestalts.map((g, i) => <div key={i}>{g ? g.text : "ERR"}</div>).toArray() */}
             </div>
+            <button onClick={
+                () => this.setState((prevState) => {
+                    return { gestalts: prevState.gestalts.map((g) => ({ ...g, text: (g ? g.text : "") + "b" })).toOrderedMap() }
+                })
+        } > mod state </button>
 
+            }
             <D3List
                 data={this.state.gestalts.toIndexedSeq().toJS()}
 
                 updateGestalt={(id: string, text: string) => {
-                    console.log(text)
+                    // console.log(text)
                     this.setState((prevState) => {
 
                         return {
