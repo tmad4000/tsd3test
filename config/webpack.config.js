@@ -33,5 +33,6 @@ module.exports = {
     // Add the HMR plugin
     new webpack.HotModuleReplacementPlugin(),
     new WebpackNotifierPlugin({ alwaysNotify: true }),
-  ]
+  ],
+  externals:[{xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'}]
 };
